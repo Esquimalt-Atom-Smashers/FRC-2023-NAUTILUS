@@ -5,54 +5,34 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShootingSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
  * This class contains the Robot's subsystems, commands, and button mappings.
  */
 public class RobotContainer {
-
-  public static final int DRIVER_CONTROLLER_PORT = 1;
-
   // Subsystems
-  private final DriveSubsystem drive = new DriveSubsystem();
-  private final ClimberSubsystem climber = new ClimberSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final ShootingSubsystem shooting = new ShootingSubsystem();
+  private final SwerveDriveSubsystem swerve = new SwerveDriveSubsystem();
 
   // Controllers
-  private final XboxController driverController = new XboxController(1);
-  private final XboxController otherController = new XboxController(0);
+  // private final XboxController driverController = new XboxController(1);
+  // private final XboxController otherController = new XboxController(0);
+
+  private final Joystick driverController = new Joystick(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-    // Setup default command for Drive Subsystem
-    drive.setDefaultCommand(new RunCommand(() -> 
-      drive.move(driverController.getRawAxis(3), driverController.getLeftX())
-    , drive));
-
-    // Setup default command for Climber Subsystem
-    climber.setDefaultCommand(new RunCommand(() -> 
-      climber.setMotor(
-        otherController.getPOV() == 0 ? -0.1 : 
-          otherController.getPOV() == 180 ? 0.1 : 0
-      )
-    , climber));
-
-    // Setup default command for Intake Subsystem
-    // intake.setDefaultCommand(new RunCommand(() -> 
-    //   intake.setIntakeSpeed(
-    //     driverController.getRightBumper() ? 0 : driverController.getRightTriggerAxis() * -0.6
-    //   )
-    // , intake));
+    swerve.setDefaultCommand(new RunCommand(() -> 
+      swerve.drive(driverController.getRawAxis(1), driverController.getRawAxis(0), driverController.getTwist())
+    , swerve));
+    
   }
 
   /**

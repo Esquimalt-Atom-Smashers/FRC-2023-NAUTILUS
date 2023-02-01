@@ -1,18 +1,16 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SwerveDriveSubsystem {
+public class SwerveDriveSubsystem extends SubsystemBase{
 
     public static boolean IS_FIELD_CENTRIC = false;
 
@@ -23,27 +21,24 @@ public class SwerveDriveSubsystem {
     private SwerveModule rearRightModule;
     private SwerveModule rearLeftModule;
 
-    private final Encoder frontRightEncoder = new Encoder(-1, -1, false, CounterBase.EncodingType.k2X);
-    private final Encoder frontLeftEncoder = new Encoder(-1, -1, false, CounterBase.EncodingType.k2X);
-    private final Encoder rearRightEncoder = new Encoder(-1, -1, false, CounterBase.EncodingType.k2X);
-    private final Encoder rearLeftEncoder = new Encoder(-1, -1, false, CounterBase.EncodingType.k2X);
-
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-            new Translation2d(-1, -1),
-            new Translation2d(-1, -1),
-            new Translation2d(-1, -1),
-            new Translation2d(-1, -1)
+            new Translation2d(0.343, 0.343), //13.5 to meter 
+            new Translation2d(0.343, -0.343),
+            new Translation2d(-0.343, 0.343),
+            new Translation2d(-0.343, -0.343)
     );
 
-    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private AHRS gyro;
 
     public SwerveDriveSubsystem() {
 
         //TODO initialize SwerveModules
-        frontRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L1, -1, -1, -1, -1);
-        frontLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L1, -1, -1, -1, -1);
-        rearRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L1, -1, -1, -1, -1);
-        rearLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L1, -1, -1, -1, -1);
+        frontRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 1, 2, 12, -Math.toRadians(0.0));
+        frontLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 5, 6, 1, -Math.toRadians(0.0));
+        rearRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 4, 3, 7, -Math.toRadians(0.0));
+        rearLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 8, 7, 6, -Math.toRadians(0.0));
+
+        gyro = new AHRS(SPI.Port.kMXP); 
 
         gyro.calibrate();
 
@@ -60,18 +55,7 @@ public class SwerveDriveSubsystem {
 
     }
 
-    public void drive(double distance, DistanceUnit unit, double timeout) {
-        Timer timer = new Timer();
-
-        drive(DRIVE_SPEED, 0, 0);
-        while ((timeout < 0 || timer.get() < timeout) &&  distance < unit.toUnit(frontLeftEncoder.getDistance())) {
-
-        }
-        drive(0, 0, 0);
-
-    }
-
-    public ADXRS450_Gyro getGyro() {
+    public AHRS getGyro() {
         return gyro;
     }
 
