@@ -17,7 +17,7 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  * This class contains the Robot's subsystems, commands, and button mappings.
  */
 public class RobotContainer {
-  // Subsystems
+
   private final SwerveDriveSubsystem swerve;
   private final ShooterSubsystem shooter;
   private final IndexSubsystem index;
@@ -30,6 +30,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    index = new IndexSubsystem();
     swerve = new SwerveDriveSubsystem();
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
