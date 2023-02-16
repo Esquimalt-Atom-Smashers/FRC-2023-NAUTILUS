@@ -4,10 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -23,12 +21,25 @@ public class RobotContainer {
   private final IndexSubsystem index;
   private final IntakeSubsystem intake;
 
-  private final Joystick driverController = new Joystick(0);
-  private final XboxController xboxController = new XboxController(1);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  private final CommandGenericHID driverController = new CommandGenericHID(1);
+
+  private final Trigger xButton = new Trigger();
+
+  private final Trigger indexForward = driverController.button(0);
+  private final Trigger indexBackward = driverController.button(11);
+  private final Trigger intakeForward = driverController.button(1);
+  private final Trigger intakeBackward = driverController.button(10);
+  private final Trigger lowButton = driverController.button(3);
+  private final Trigger mediumButton = driverController.button(2);
+  private final Trigger highButton = driverController.button(4);
+
   public RobotContainer() {
-    // Configure the button bindings
+    index = new IndexSubsystem();
+    swerve = new SwerveDriveSubsystem();
+    intake = new IntakeSubsystem();
+    shooter = new ShooterSubsystem();
+
     configureButtonBindings();
 
     swerve.setDefaultCommand(swerve.drive(driverController.getRawAxis(1), driverController.getRawAxis(0), driverController.getRawAxis(2)));

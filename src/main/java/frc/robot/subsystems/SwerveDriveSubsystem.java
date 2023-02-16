@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveDriveSubsystem extends SubsystemBase{
@@ -46,15 +47,16 @@ public class SwerveDriveSubsystem extends SubsystemBase{
 
     }
 
-    public void drive(double forward, double sideways, double angular) {
-        ChassisSpeeds chassis = new ChassisSpeeds(forward, sideways, angular);
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
+    public CommandBase drive(double forward, double sideways, double angular) {
+        return this.run(() -> {
+            ChassisSpeeds chassis = new ChassisSpeeds(forward, sideways, angular);
+            SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
 
-        frontLeftModule.set(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-        frontRightModule.set(states[1].speedMetersPerSecond, states[1].angle.getRadians());
-        rearLeftModule.set(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-        rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians());
-
+            frontLeftModule.set(states[0].speedMetersPerSecond, states[0].angle.getRadians());
+            frontRightModule.set(states[1].speedMetersPerSecond, states[1].angle.getRadians());
+            rearLeftModule.set(states[2].speedMetersPerSecond, states[2].angle.getRadians());
+            rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians());
+        });
     }
 
     public AHRS getGyro() {

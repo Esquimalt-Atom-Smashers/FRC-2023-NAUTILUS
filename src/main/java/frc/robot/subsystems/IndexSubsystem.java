@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexSubsystem extends SubsystemBase {
@@ -17,9 +18,25 @@ public class IndexSubsystem extends SubsystemBase {
         rearIndex.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void index(double value) {
-        frontIndex.set(ControlMode.PercentOutput, value);
-        rearIndex.set(ControlMode.PercentOutput, value);
+    public CommandBase indexForward() {
+        return this.runOnce(() -> {
+            frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+            rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+        });
+    }
+
+    public CommandBase indexBackward() {
+        return this.runOnce(() -> {
+            frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+            rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+        });
+    }
+
+    public CommandBase indexStop() {
+        return this.runOnce(() -> {
+            frontIndex.set(ControlMode.PercentOutput, 0);
+            rearIndex.set(ControlMode.PercentOutput, 0);
+        });
     }
 
 
