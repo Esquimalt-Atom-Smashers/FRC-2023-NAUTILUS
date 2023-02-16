@@ -15,15 +15,15 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void forward () {
-        intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+    public CommandBase intakeForward() {
+        return this.runOnce(() -> intakeMotor.set(ControlMode.PercentOutput, -INTAKE_SPEED));
     }
 
-    public void backward () {
-        intakeMotor.set(ControlMode.PercentOutput, -INTAKE_SPEED);
+    public CommandBase intakeBackward() {
+        return this.runOnce(() -> intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED));
     }
 
-    public void stop () {
-        intakeMotor.set(ControlMode.PercentOutput, 0);
+    public CommandBase intakeStop() {
+        return this.runOnce(() -> intakeMotor.set(ControlMode.PercentOutput, 0));
     }
 }

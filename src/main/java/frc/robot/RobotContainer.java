@@ -31,41 +31,22 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    index = new IndexSubsystem();
-    swerve = new SwerveDriveSubsystem();
-    intake = new IntakeSubsystem();
-    shooter = new ShooterSubsystem();
-
-    index.setDefaultCommand(new RunCommand( () -> {
-      index.index(xboxController.getXButton() ? 0.25 : 0.0);
-      index.index(xboxController.getRightBumper() ? 0.25 : 0.0);
-    }, index));
-
-    swerve.setDefaultCommand(new RunCommand(() -> {
-        swerve.drive(driverController.getRawAxis(1), driverController.getRawAxis(0), driverController.getTwist());
-    }, swerve));
-
-    intake.setDefaultCommand(new RunCommand(() -> {
-      if (xboxController.getBButton()) {
-        intake.forward();
-      } else if (xboxController.getBButton() && xboxController.getLeftBumper()) {
-        intake.backward();
-      } else {
-        intake.stop();
-      }
-    }, intake));
-    
-    shooter.setDefaultCommand(new RunCommand(() -> shooter.shoot(xboxController.getAButton() ? 0.2 : 0), shooter));
+    swerve.setDefaultCommand(swerve.drive(driverController.getRawAxis(1), driverController.getRawAxis(0), driverController.getRawAxis(2)));
+    shooter.setDefaultCommand(shooter.shootStop());
+    index.setDefaultCommand(index.indexStop());
+    intake.setDefaultCommand(intake.intakeStop());
   }
 
-  /**
-   * one day we should switch to this
-   * 
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    lowButton.onTrue(shooter.lowShoot());
+    mediumButton.onTrue(shooter.mediumShoot());
+    highButton.onTrue(shooter.highShoot());
+
+    indexForward.onTrue(index.indexForward());
+    indexBackward.onTrue(index.indexBackward());
+
+    intakeForward.onTrue(intake.intakeForward());
+    intakeBackward.onTrue(intake.intakeBackward());
+  }
 
 }
