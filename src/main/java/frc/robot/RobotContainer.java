@@ -16,30 +16,23 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  */
 public class RobotContainer {
 
-  private final SwerveDriveSubsystem swerve;
-  private final ShooterSubsystem shooter;
-  private final IndexSubsystem index;
-  private final IntakeSubsystem intake;
+  private final SwerveDriveSubsystem swerve = new SwerveDriveSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final IndexSubsystem index = new IndexSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
 
 
-  private final CommandGenericHID driverController = new CommandGenericHID(1);
+  private final CommandGenericHID driverController = new CommandGenericHID(0);
 
-  private final Trigger xButton = new Trigger();
-
-  private final Trigger indexForward = driverController.button(0);
-  private final Trigger indexBackward = driverController.button(11);
-  private final Trigger intakeForward = driverController.button(1);
-  private final Trigger intakeBackward = driverController.button(10);
-  private final Trigger lowButton = driverController.button(3);
-  private final Trigger mediumButton = driverController.button(2);
-  private final Trigger highButton = driverController.button(4);
+  private final Trigger indexForward = driverController.button(1);
+  private final Trigger indexBackward = driverController.button(12);
+  private final Trigger intakeForward = driverController.button(2);
+  private final Trigger intakeBackward = driverController.button(11);
+  private final Trigger lowButton = driverController.button(4);
+  private final Trigger mediumButton = driverController.button(3);
+  private final Trigger highButton = driverController.button(5);
 
   public RobotContainer() {
-    index = new IndexSubsystem();
-    swerve = new SwerveDriveSubsystem();
-    intake = new IntakeSubsystem();
-    shooter = new ShooterSubsystem();
-
     configureButtonBindings();
 
     swerve.setDefaultCommand(swerve.drive(driverController.getRawAxis(1), driverController.getRawAxis(0), driverController.getRawAxis(2)));
@@ -49,6 +42,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    lowButton.onTrue(shooter.lowShoot());
     lowButton.onTrue(shooter.lowShoot());
     mediumButton.onTrue(shooter.mediumShoot());
     highButton.onTrue(shooter.highShoot());
