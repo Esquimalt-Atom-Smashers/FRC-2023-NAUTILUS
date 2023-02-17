@@ -41,18 +41,17 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         gyro = new AHRS(SPI.Port.kMXP);
         // Calibrates, zeros yaw
         gyro.reset();
-
     }
 
     public void drive(double forward, double sideways, double angular) {
-        forward *= -1;
+        sideways *= -1;
         ChassisSpeeds chassis;
         if (FIELD_CENTRIC) {
             chassis = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    forward * 4,
-                    sideways * 4,
-                    angular * 8,
-                    Rotation2d.fromDegrees(gyro.getFusedHeading())
+                    forward * 6,
+                    sideways * 6,
+                    angular * 7,
+                    Rotation2d.fromDegrees(gyro.getYaw()*-1 - 90)
             );
         } else {
             chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);

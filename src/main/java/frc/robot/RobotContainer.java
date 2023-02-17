@@ -36,7 +36,7 @@ public class RobotContainer {
     }, index));
 
     swerve.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(7)) {
+      if (controller.getRawButton(9)) {
         swerve.reset();
       } else {
         swerve.drive(
