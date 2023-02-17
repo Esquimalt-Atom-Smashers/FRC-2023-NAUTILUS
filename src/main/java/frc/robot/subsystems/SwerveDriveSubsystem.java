@@ -47,16 +47,14 @@ public class SwerveDriveSubsystem extends SubsystemBase{
 
     }
 
-    public CommandBase drive(double forward, double sideways, double angular) {
-        return this.run(() -> {
-            ChassisSpeeds chassis = new ChassisSpeeds(forward, sideways, angular);
-            SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
+    public void drive(double forward, double sideways, double angular) {
+        ChassisSpeeds chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
 
-            frontLeftModule.set(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-            frontRightModule.set(states[1].speedMetersPerSecond, states[1].angle.getRadians());
-            rearLeftModule.set(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-            rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians());
-        });
+        frontLeftModule.set(states[0].speedMetersPerSecond, states[0].angle.getRadians() + Math.toRadians(213));
+        frontRightModule.set(states[1].speedMetersPerSecond, states[1].angle.getRadians());
+        rearLeftModule.set(states[2].speedMetersPerSecond, states[2].angle.getRadians() + Math.toRadians(39));
+        rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians() + Math.toRadians(141));
     }
 
     public AHRS getGyro() {

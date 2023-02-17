@@ -19,13 +19,13 @@ public class IndexSubsystem extends SubsystemBase {
     }
 
     public void indexForward() {
-        frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+        frontIndex.set(ControlMode.PercentOutput, -INDEX_SPEED);
         rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
     }
 
     public void indexBackward() {
         frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
-        rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+        rearIndex.set(ControlMode.PercentOutput, -INDEX_SPEED);
     }
 
     public void indexStop() {
