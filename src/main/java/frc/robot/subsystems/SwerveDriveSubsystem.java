@@ -45,8 +45,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     }
 
     public void drive(double forward, double sideways, double angular) {
-
-        ChassisSpeeds chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);
+        forward *= -1;
+        ChassisSpeeds chassis;
         if (FIELD_CENTRIC) {
             chassis = ChassisSpeeds.fromFieldRelativeSpeeds(
                     forward * 4,
@@ -65,6 +65,7 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians() + Math.toRadians(141));
         SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
         SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Fused", gyro.getFusedHeading());
     }
 
     public void reset() {
