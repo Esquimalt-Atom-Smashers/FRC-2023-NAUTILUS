@@ -61,6 +61,7 @@ public class RobotContainer {
       if (controller.getRawButton(4)) shooter.lowShoot();
       else if (controller.getRawButton(3)) shooter.mediumShoot();
       else if (controller.getRawButton(5)) shooter.highShoot();
+      else if (controller.getRawButton(6)) shooter.crazyShoot();
       else shooter.shootStop();
     }, shooter));
   }
