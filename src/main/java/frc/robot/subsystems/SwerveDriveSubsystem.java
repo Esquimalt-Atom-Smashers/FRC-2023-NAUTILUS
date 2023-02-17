@@ -62,9 +62,6 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         frontRightModule.set(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         rearLeftModule.set(states[2].speedMetersPerSecond, states[2].angle.getRadians() + Math.toRadians(39));
         rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians() + Math.toRadians(141));
-        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
-        SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
-        SmartDashboard.putNumber("Gyro Fused", gyro.getFusedHeading());
     }
 
     public void reset() {
