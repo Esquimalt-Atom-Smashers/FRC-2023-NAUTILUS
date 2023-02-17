@@ -25,30 +25,22 @@ public class ShooterSubsystem extends SubsystemBase {
         rearShooter.set(-power);
     }
 
-    public CommandBase shootStop() {
-        return this.runOnce(() -> {
-            frontShooter.set(0);
-            rearShooter.set(0);
-        });
+    public void shootStop() {
+        frontShooter.set(0);
+        rearShooter.set(0);
     }
 
-    public CommandBase lowShoot() {
-        return this.runOnce(() -> {
-            frontShooter.set(LOW_SHOOT_SPEED);
-            rearShooter.set(-LOW_SHOOT_SPEED);
-        });
+    public void lowShoot() {
+        frontShooter.set(LOW_SHOOT_SPEED);
+        rearShooter.set(-LOW_SHOOT_SPEED);
     }
-    public CommandBase mediumShoot() {
-        return this.runOnce(() -> {
-            frontShooter.set(MEDIUM_SHOOT_SPEED);
-            rearShooter.set(-MEDIUM_SHOOT_SPEED);
-        });
+    public void mediumShoot() {
+        frontShooter.set(MEDIUM_SHOOT_SPEED);
+        rearShooter.set(-MEDIUM_SHOOT_SPEED);
     }
-    public CommandBase highShoot() {
-        return this.runOnce(() -> {
-            frontShooter.set(HIGH_SHOOT_SPEED);
-            rearShooter.set(-HIGH_SHOOT_SPEED);
-        });
+    public void highShoot() {
+        frontShooter.set(HIGH_SHOOT_SPEED);
+        rearShooter.set(-HIGH_SHOOT_SPEED);
     }
 
 }

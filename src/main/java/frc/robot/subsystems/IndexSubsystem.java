@@ -10,33 +10,27 @@ public class IndexSubsystem extends SubsystemBase {
 
     private final double INDEX_SPEED = 0.25;
 
-    private final VictorSPX frontIndex = new VictorSPX(-1);
-    private final VictorSPX rearIndex = new VictorSPX(-1);
+    private final VictorSPX frontIndex = new VictorSPX(2);
+    private final VictorSPX rearIndex = new VictorSPX(1);
 
     public IndexSubsystem() {
         frontIndex.setNeutralMode(NeutralMode.Brake);
         rearIndex.setNeutralMode(NeutralMode.Brake);
     }
 
-    public CommandBase indexForward() {
-        return this.runOnce(() -> {
-            frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
-            rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
-        });
+    public void indexForward() {
+        frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+        rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
     }
 
-    public CommandBase indexBackward() {
-        return this.runOnce(() -> {
-            frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
-            rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
-        });
+    public void indexBackward() {
+        frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
+        rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
     }
 
-    public CommandBase indexStop() {
-        return this.runOnce(() -> {
-            frontIndex.set(ControlMode.PercentOutput, 0);
-            rearIndex.set(ControlMode.PercentOutput, 0);
-        });
+    public void indexStop() {
+        frontIndex.set(ControlMode.PercentOutput, 0);
+        rearIndex.set(ControlMode.PercentOutput, 0);
     }
 
 
