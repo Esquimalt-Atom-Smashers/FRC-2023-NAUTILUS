@@ -37,14 +37,23 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         rearRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 4, 3, 13, 0);
         rearLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 8, 7, 14, 0);
 
-        gyro = new AHRS(SPI.Port.kMXP); 
-
+        gyro = new AHRS(SPI.Port.kMXP);
         gyro.calibrate();
 
     }
 
     public void drive(double forward, double sideways, double angular) {
-        ChassisSpeeds chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);
+        ChassisSpeeds chassis;
+        if (FIELD_CENTRIC) {
+            chassis = ChassisSpeeds.fromFieldRelativeSpeeds(
+                    forward * 4,
+                    sideways * 4,
+                    angular * 8,
+                    Rotation2d.fromDegrees(gyro.getAngle())
+            );
+        } else {
+            chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);
+        }
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
 
         frontLeftModule.set(states[0].speedMetersPerSecond, states[0].angle.getRadians() + Math.toRadians(213));

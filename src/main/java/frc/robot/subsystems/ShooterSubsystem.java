@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    private static final double LOW_SHOOT_SPEED = 0.4;
-    private static final double MEDIUM_SHOOT_SPEED = 0.6;
-    private static final double HIGH_SHOOT_SPEED = 0.8;
+    private static final double LOW_SHOOT_SPEED = 0.1;
+    private static final double MEDIUM_SHOOT_SPEED = 0.25;
+    private static final double HIGH_SHOOT_SPEED = 0.4;
 
     private final CANSparkMax frontShooter = new CANSparkMax(9, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax rearShooter = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
