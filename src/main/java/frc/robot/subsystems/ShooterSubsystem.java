@@ -39,4 +39,9 @@ public class ShooterSubsystem extends SubsystemBase {
         rearShooter.set(-HIGH_SHOOT_SPEED);
     }
 
+    public void crazyShoot() {
+        frontShooter.set(1);
+        rearShooter.set(-1);
+    }
+
 }
