@@ -28,18 +28,22 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
 
-    index.setDefaultCommand(new RunCommand( () -> {
+    index.setDefaultCommand(new RunCommand(() -> {
       if (controller.getRawButton(1)) index.indexForward();
       else if (controller.getRawButton(12)) index.indexBackward();
       else index.indexStop();
     }, index));
 
     swerve.setDefaultCommand(new RunCommand(() -> {
-      swerve.drive(
-        Math.abs(controller.getRawAxis(0)) > 0.1 ? controller.getRawAxis(0) : 0,
-        Math.abs(controller.getRawAxis(1)) > 0.1 ? controller.getRawAxis(1) : 0,
-        Math.abs(controller.getTwist()) > 0.2 ? controller.getTwist() : 0
-      );
+      if (controller.getRawButton(7)) {
+        swerve.reset();
+      } else {
+        swerve.drive(
+                Math.abs(controller.getRawAxis(0)) > 0.1 ? controller.getRawAxis(0) : 0,
+                Math.abs(controller.getRawAxis(1)) > 0.1 ? controller.getRawAxis(1) : 0,
+                Math.abs(controller.getTwist()) > 0.2 ? controller.getTwist() : 0
+        );
+      }
     }, swerve));
 
     intake.setDefaultCommand(new RunCommand(() -> {
