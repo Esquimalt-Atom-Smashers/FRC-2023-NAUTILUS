@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveDriveSubsystem extends SubsystemBase{
@@ -44,6 +45,7 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     }
 
     public void drive(double forward, double sideways, double angular) {
+
         ChassisSpeeds chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);
         if (FIELD_CENTRIC) {
             chassis = ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -61,6 +63,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         frontRightModule.set(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         rearLeftModule.set(states[2].speedMetersPerSecond, states[2].angle.getRadians() + Math.toRadians(39));
         rearRightModule.set(states[3].speedMetersPerSecond, states[3].angle.getRadians() + Math.toRadians(141));
+        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+        SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
     }
 
     public void reset() {
