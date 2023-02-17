@@ -20,11 +20,6 @@ public class ShooterSubsystem extends SubsystemBase {
         rearShooter.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
-    public void shoot(double power) {
-        frontShooter.set(power);
-        rearShooter.set(-power);
-    }
-
     public void shootStop() {
         frontShooter.set(0);
         rearShooter.set(0);
@@ -38,6 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
         frontShooter.set(MEDIUM_SHOOT_SPEED);
         rearShooter.set(-MEDIUM_SHOOT_SPEED);
     }
+
     public void highShoot() {
         frontShooter.set(HIGH_SHOOT_SPEED);
         rearShooter.set(-HIGH_SHOOT_SPEED);
