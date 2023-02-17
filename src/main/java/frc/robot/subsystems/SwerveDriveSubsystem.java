@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveDriveSubsystem extends SubsystemBase{
 
-    public static boolean IS_FIELD_CENTRIC = false;
-
-    private final double DRIVE_SPEED = 1.0;
+    public static boolean FIELD_CENTRIC = true;
 
     private SwerveModule frontRightModule;
     private SwerveModule frontLeftModule;
