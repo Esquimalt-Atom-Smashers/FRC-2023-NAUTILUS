@@ -52,7 +52,7 @@ public class SwerveDriveSubsystem extends SubsystemBase{
                     forward * 4,
                     sideways * 4,
                     angular * 8,
-                    Rotation2d.fromDegrees(gyro.getAngle())
+                    Rotation2d.fromDegrees(gyro.getFusedHeading())
             );
         } else {
             chassis = new ChassisSpeeds(forward * 4, sideways * 4, angular * 8);
