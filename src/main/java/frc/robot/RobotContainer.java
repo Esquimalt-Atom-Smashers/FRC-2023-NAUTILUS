@@ -35,11 +35,11 @@ public class RobotContainer {
     }, index));
 
     swerve.setDefaultCommand(new RunCommand(() -> {
-      if (Math.abs(controller.getRawAxis(0)) > 0.1 &&
-              Math.abs(controller.getRawAxis(1)) > 0.1 &&
-              Math.abs(controller.getTwist()) > 0.1) {
-        swerve.drive(controller.getRawAxis(1), controller.getRawAxis(0), controller.getTwist());
-      }
+      swerve.drive(
+        Math.abs(controller.getRawAxis(0)) > 0.1 ? controller.getRawAxis(0) : 0,
+        Math.abs(controller.getRawAxis(1)) > 0.1 ? controller.getRawAxis(1) : 0,
+        Math.abs(controller.getTwist()) > 0.2 ? controller.getTwist() : 0
+      );
     }, swerve));
 
     intake.setDefaultCommand(new RunCommand(() -> {
