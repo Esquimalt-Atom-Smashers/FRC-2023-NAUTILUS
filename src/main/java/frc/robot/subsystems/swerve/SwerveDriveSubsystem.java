@@ -48,12 +48,7 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     private AHRS gyro;
 
     public SwerveDriveSubsystem() {
-
-        //TODO initialize SwerveModules
-        frontRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 1, 2, 11, 0);
-        frontLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 5, 6, 12, 0);
-        rearRightModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 4, 3, 13, 0);
-        rearLeftModule = Mk4SwerveModuleHelper.createNeo(Mk4SwerveModuleHelper.GearRatio.L2, 8, 7, 14, 0);
+        resetTurn();
 
         gyro = new AHRS(SPI.Port.kMXP);
         // Calibrates, zeros yaw
