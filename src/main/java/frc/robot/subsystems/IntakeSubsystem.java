@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(ControlMode.PercentOutput, -INTAKE_SPEED);
     }
 
-    public void reverse() {
+    public void backward() {
         intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
     }
 

@@ -18,17 +18,17 @@ public class IndexSubsystem extends SubsystemBase {
         rearIndex.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void indexForward() {
+    public void forward() {
         frontIndex.set(ControlMode.PercentOutput, -INDEX_SPEED);
         rearIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
     }
 
-    public void indexBackward() {
+    public void backward() {
         frontIndex.set(ControlMode.PercentOutput, INDEX_SPEED);
         rearIndex.set(ControlMode.PercentOutput, -INDEX_SPEED);
     }
 
-    public void indexStop() {
+    public void stop() {
         frontIndex.set(ControlMode.PercentOutput, 0);
         rearIndex.set(ControlMode.PercentOutput, 0);
     }

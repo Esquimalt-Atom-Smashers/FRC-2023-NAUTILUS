@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -21,50 +23,45 @@ public class RobotContainer {
   private final IndexSubsystem index = new IndexSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
 
-  private final Joystick controller = new Joystick(0);
+//  private final Joystick driverController = new Joystick(0);
+  private final CommandGenericHID commandController = new CommandGenericHID(0);
+
+  private final Trigger lowShootButton = commandController.button(4);
+  private final Trigger mediumShootButton = commandController.button(3);
+  private final Trigger highShootButton = commandController.button(5);
+  private final Trigger indexForwardButton = commandController.button(1);
+  private final Trigger indexBackwardButton = commandController.button(12);
+  private final Trigger intakeForwardButton = commandController.button(1);
+  private final Trigger intakeBackwardButton = commandController.button(12);
 
   public RobotContainer() {
     configureButtonBindings();
 
-    index.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(1)) index.indexForward();
-      else if (controller.getRawButton(12)) index.indexBackward();
-      else index.indexStop();
-    }, index));
+    //TODO: Confirm axis values
+    swerve.setDefaultCommand(new DefaultDriveCommand(
+            swerve,
+            () -> commandController.getRawAxis(0),
+            () -> commandController.getRawAxis(2),
+            () -> commandController.getRawAxis(1),
+            () -> true
+    ));
 
-    swerve.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(9)) {
-        swerve.reset();
-      } else {
-        swerve.drive(
-                Math.abs(controller.getRawAxis(0)) > 0.1 ? controller.getRawAxis(0) : 0,
-                Math.abs(controller.getRawAxis(1)) > 0.1 ? controller.getRawAxis(1) : 0,
-                Math.abs(controller.getTwist()) > 0.2 ? controller.getTwist() : 0
-        );
-      }
-    }, swerve));
-
-    intake.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(2)) {
-        intake.forward();
-      } else if (controller.getRawButton(11)) {
-        intake.reverse();
-      } else {
-        intake.stop();
-      }
-    }, intake));
-
-    shooter.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(4)) shooter.lowShoot();
-      else if (controller.getRawButton(3)) shooter.mediumShoot();
-      else if (controller.getRawButton(5)) shooter.highShoot();
-      else if (controller.getRawButton(6)) shooter.crazyShoot();
-      else shooter.shootStop();
-    }, shooter));
+    index.setDefaultCommand(new RunCommand(index::stop, index));
+    intake.setDefaultCommand(new RunCommand(intake::stop, intake));
+    shooter.setDefaultCommand(new RunCommand(shooter::stop, shooter));
   }
 
+  //TODO: Replace RunCommand with actual commands i.e ShootLowCommand.
   private void configureButtonBindings() {
+    lowShootButton.whileTrue(new RunCommand(shooter::lowShoot, shooter));
+    mediumShootButton.whileTrue(new RunCommand(shooter::mediumShoot, shooter));
+    highShootButton.whileTrue(new RunCommand(shooter::highShoot, shooter));
 
+    intakeForwardButton.whileTrue(new RunCommand(intake::forward, intake));
+    intakeBackwardButton.whileTrue(new RunCommand(intake::backward, intake));
+
+    indexForwardButton.whileTrue(new RunCommand(index::forward, index));
+    indexBackwardButton.whileTrue(new RunCommand(index::backward, index));
   }
 
 }
