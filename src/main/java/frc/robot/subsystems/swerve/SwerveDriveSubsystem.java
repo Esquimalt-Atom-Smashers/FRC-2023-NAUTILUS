@@ -24,7 +24,7 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     private final SwerveModule rearRightModule = new SwerveModule(4, 3, 1);
     private final SwerveModule rearLeftModule = new SwerveModule(8, 7, 14);
 
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+    public SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             new Translation2d(0.343, 0.343), //13.5 to meter
             new Translation2d(0.343, -0.343),
             new Translation2d(-0.343, 0.343),

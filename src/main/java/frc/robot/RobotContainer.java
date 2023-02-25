@@ -6,10 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.swerve.SwerveDriveSubsystem;
 
@@ -17,13 +19,12 @@ import frc.robot.subsystems.swerve.SwerveDriveSubsystem;
  * This class contains the Robot's subsystems, commands, and button mappings.
  */
 public class RobotContainer {
-
   private final SwerveDriveSubsystem swerve = new SwerveDriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final IndexSubsystem index = new IndexSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final LEDSubsystem led = new LEDSubsystem();
 
-//  private final Joystick driverController = new Joystick(0);
   private final CommandGenericHID commandController = new CommandGenericHID(0);
 
   private final Trigger lowShootButton = commandController.button(4);
@@ -33,6 +34,7 @@ public class RobotContainer {
   private final Trigger indexBackwardButton = commandController.button(12);
   private final Trigger intakeForwardButton = commandController.button(1);
   private final Trigger intakeBackwardButton = commandController.button(12);
+  private final Trigger gyroReset = commandController.button(-1);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -53,15 +55,26 @@ public class RobotContainer {
 
   //TODO: Replace RunCommand with actual commands i.e ShootLowCommand.
   private void configureButtonBindings() {
-    lowShootButton.whileTrue(new RunCommand(shooter::lowShoot, shooter));
-    mediumShootButton.whileTrue(new RunCommand(shooter::mediumShoot, shooter));
-    highShootButton.whileTrue(new RunCommand(shooter::highShoot, shooter));
+    lowShootButton.onTrue(new RunCommand(shooter::lowShoot, shooter) //May need to switch to whileTrue()
+            .alongWith(new RunCommand(led::charging, led))
+            .alongWith(new WaitCommand(1))
+            .andThen(new RunCommand(led::ready, led)));
+    mediumShootButton.onTrue(new RunCommand(shooter::mediumShoot, shooter)
+            .alongWith(new RunCommand(led::charging, led))
+            .alongWith(new WaitCommand(1))
+            .andThen(new RunCommand(led::ready, led)));
+    highShootButton.onTrue(new RunCommand(shooter::highShoot, shooter)
+            .alongWith(new RunCommand(led::charging, led))
+            .alongWith(new WaitCommand(1))
+            .andThen(new RunCommand(led::ready, led)));
 
-    intakeForwardButton.whileTrue(new RunCommand(intake::forward, intake));
-    intakeBackwardButton.whileTrue(new RunCommand(intake::backward, intake));
+    intakeForwardButton.onTrue(new RunCommand(intake::forward, intake));
+    intakeBackwardButton.onTrue(new RunCommand(intake::backward, intake));
 
-    indexForwardButton.whileTrue(new RunCommand(index::forward, index));
-    indexBackwardButton.whileTrue(new RunCommand(index::backward, index));
+    indexForwardButton.onTrue(new RunCommand(index::forward, index));
+    indexBackwardButton.onTrue(new RunCommand(index::backward, index));
+
+    gyroReset.onTrue(new RunCommand(swerve::reset, swerve));
   }
 
 }
