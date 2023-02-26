@@ -58,8 +58,6 @@ public class RobotContainer {
     chooser.setDefaultOption("Left Position", leftPosition.getAutonomousCommand());
     chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand());
     chooser.setDefaultOption("Right Position", rightPosition.getAutonomousCommand());
-
-    // Put the chooser on the dashboard
     SmartDashboard.putData(chooser);
     // End Auto Stuff
 
