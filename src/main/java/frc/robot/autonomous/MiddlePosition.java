@@ -18,9 +18,9 @@ public class MiddlePosition {
     public Command getAutonomousCommand() {
         return new RunCommand(shooter::highShoot, shooter)
                 .andThen(new WaitCommand(1))
-                .alongWith(new RunCommand(index::forward))
+                .andThen(new RunCommand(index::forward))
                 .alongWith(new WaitCommand(2))
                 .andThen(new RunCommand(shooter::stop))
-                .andThen(new RunCommand(index::stop));
+                .alongWith(new RunCommand(index::stop));
     }
 }

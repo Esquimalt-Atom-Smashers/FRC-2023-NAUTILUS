@@ -8,10 +8,12 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swerve.SwerveDriveSubsystem;
 
-public class RightPosition {
+public class LeftPosition {
 
     private final ShooterSubsystem shooter = new ShooterSubsystem();
     private final IndexSubsystem index = new IndexSubsystem();
+
+    public LeftPosition(){}
 
     public Command getAutonomousCommand() {
         return new RunCommand(shooter::highShoot, shooter)
