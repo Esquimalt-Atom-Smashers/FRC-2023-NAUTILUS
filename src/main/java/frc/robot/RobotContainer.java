@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.autonomous.LeftPosition;
+import frc.robot.autonomous.LeftAndRightPosition;
 import frc.robot.autonomous.MiddlePosition;
-import frc.robot.autonomous.RightPosition;
 import frc.robot.subsystems.index.IndexSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -46,18 +45,15 @@ public class RobotContainer {
   // A chooser for autonomous commands
   SendableChooser<Command> chooser = new SendableChooser<>();
 
-  LeftPosition leftPosition = new LeftPosition();
+  LeftAndRightPosition leftAndRightPosition = new LeftAndRightPosition();
   MiddlePosition middlePosition = new MiddlePosition();
-  RightPosition rightPosition = new RightPosition();
-
 
   public RobotContainer() {
 
     // More Auto Stuff
     // Add commands to the autonomous command chooser
-    chooser.setDefaultOption("Left Position", leftPosition.getAutonomousCommand());
+    chooser.setDefaultOption("Left And Right Position", leftAndRightPosition.getAutonomousCommand());
     chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand());
-    chooser.setDefaultOption("Right Position", rightPosition.getAutonomousCommand());
     SmartDashboard.putData(chooser);
     // End Auto Stuff
 
