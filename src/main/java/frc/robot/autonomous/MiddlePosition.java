@@ -10,12 +10,9 @@ import frc.robot.subsystems.swerve.SwerveDriveSubsystem;
 
 public class MiddlePosition {
 
-    private final ShooterSubsystem shooter = new ShooterSubsystem();
-    private final IndexSubsystem index = new IndexSubsystem();
-
     public MiddlePosition(){}
 
-    public Command getAutonomousCommand() {
+    public Command getAutonomousCommand(ShooterSubsystem shooter, IndexSubsystem index) {
         return new RunCommand(shooter::highShoot, shooter)
                 .andThen(new WaitCommand(1))
                 .andThen(new RunCommand(index::forward))

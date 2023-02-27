@@ -52,8 +52,8 @@ public class RobotContainer {
 
     // More Auto Stuff
     // Add commands to the autonomous command chooser
-    chooser.setDefaultOption("Left And Right Position", leftAndRightPosition.getAutonomousCommand());
-    chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand());
+    chooser.setDefaultOption("Left And Right Position", leftAndRightPosition.getAutonomousCommand(swerve, shooter, index, intake));
+    chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand(shooter, index));
     SmartDashboard.putData(chooser);
     // End Auto Stuff
 
