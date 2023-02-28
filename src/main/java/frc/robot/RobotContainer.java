@@ -5,10 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -39,6 +36,7 @@ public class RobotContainer {
       if (controller.getRawButton(9)) {
         swerve.reset();
       } else {
+        //double multiplier = controller.getRawButton(8) ? 1.5 : 1;
         swerve.drive(
                 Math.abs(controller.getRawAxis(0)) > 0.1 ? controller.getRawAxis(0) : 0,
                 Math.abs(controller.getRawAxis(1)) > 0.1 ? controller.getRawAxis(1) : 0,
