@@ -2,16 +2,13 @@ package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveByTimeCommand;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class MiddlePosition {
+public class LeftAndRightPosition {
 
-    public MiddlePosition(){}
-
+    public LeftAndRightPosition(){}
+    
     public Command getAutonomousCommand(RobotContainer container) {
         var shooter = container.getShooter();
         var index = container.getIndex();
@@ -19,7 +16,10 @@ public class MiddlePosition {
         return new RunCommand(shooter::highShoot, shooter).withTimeout(1)
                 .andThen(new RunCommand(index::indexForward, index).withTimeout(3))
                 .andThen(new RunCommand(shooter::shootStop).withTimeout(1))
-                .alongWith(new RunCommand(index::indexStop).withTimeout(1));
-                //TODO: Drive back over charging station to park outside community.
+                .alongWith(new RunCommand(index::indexStop).withTimeout(1))
+                .andThen(new DriveByTimeCommand(swerve, 1, 0.5));
+                // .andThen(new RunCommand(() -> swerve.drive(1, 0, 0), swerve).withTimeout(5));
+                //TODO: Drive back to go outside community (Extra points if we get a cube and go back and shoot it)
     }
+
 }

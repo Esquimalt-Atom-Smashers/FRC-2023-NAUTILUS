@@ -11,7 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SwerveDriveSubsystem extends SubsystemBase{
+public class SwerveDriveSubsystem extends SubsystemBase {
 
     public static boolean FIELD_CENTRIC = true;
 

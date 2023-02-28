@@ -24,6 +24,7 @@ public class DriveByTimeCommand extends CommandBase {
     @Override
     public void initialize(){
         timer.reset();
+        timer.start();
         swerve.drive(speed,0, 0);
         while(timer.get() < time) {}
         swerve.drive(0, 0, 0);

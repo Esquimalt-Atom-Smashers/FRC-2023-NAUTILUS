@@ -25,21 +25,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void lowShoot() {
         frontShooter.set(LOW_SHOOT_SPEED);
-        rearShooter.set(LOW_SHOOT_SPEED);
+        rearShooter.set(-LOW_SHOOT_SPEED);
     }
     public void mediumShoot() {
         frontShooter.set(MEDIUM_SHOOT_SPEED);
-        rearShooter.set(MEDIUM_SHOOT_SPEED);
+        rearShooter.set(-MEDIUM_SHOOT_SPEED);
     }
 
     public void highShoot() {
         frontShooter.set(HIGH_SHOOT_SPEED);
-        rearShooter.set(HIGH_SHOOT_SPEED);
+        rearShooter.set(-HIGH_SHOOT_SPEED);
     }
 
     public void crazyShoot() {
         frontShooter.set(1);
-        rearShooter.set(1);
+        rearShooter.set(-1);
     }
 
 }

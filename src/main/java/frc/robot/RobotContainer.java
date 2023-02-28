@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.autonomous.LeftAndRightPosition;
 import frc.robot.autonomous.MiddlePosition;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -31,10 +32,13 @@ public class RobotContainer {
   // A chooser for autonomous commands
   SendableChooser<Command> chooser = new SendableChooser<>();
   MiddlePosition middlePosition = new MiddlePosition();
+  LeftAndRightPosition leftandrightposition = new LeftAndRightPosition();
+
 
   public RobotContainer() {
 
-    chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand(shooter, index));
+    chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand(this));
+    chooser.addOption("Left And Right Position", leftandrightposition.getAutonomousCommand(this));
     SmartDashboard.putData(chooser);
     // End Auto
 
@@ -84,6 +88,22 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return chooser.getSelected();
+  }
+
+  public SwerveDriveSubsystem getSwerve() {
+      return swerve;
+  }
+
+  public IntakeSubsystem getIntake() {
+      return intake;
+  }
+
+  public IndexSubsystem getIndex() {
+      return index;
+  }
+
+  public ShooterSubsystem getShooter() {
+      return shooter;
   }
 
 }
