@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.autonomous.LeftAndRightPosition;
 import frc.robot.autonomous.MiddlePosition;
+import frc.robot.autonomous.ShootAndDrive;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -37,8 +38,8 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    chooser.setDefaultOption("Middle Position", middlePosition.getAutonomousCommand(this));
-    chooser.addOption("Left And Right Position", leftandrightposition.getAutonomousCommand(this));
+    chooser.setDefaultOption("Middle Position", ShootAndDrive.middleCommand(this));
+    chooser.addOption("Left And Right Position", ShootAndDrive.leftRightCommand(this));
     SmartDashboard.putData(chooser);
     // End Auto
 
@@ -54,11 +55,11 @@ public class RobotContainer {
       if (controller.getRawButton(9)) {
         swerve.reset();
       } else {
-        //double multiplier = controller.getRawButton(8) ? 1.5 : 1;
+        double multiplier = controller.getRawButton(8) ? 1.5 : 1;
         swerve.drive(
-                Math.abs(controller.getRawAxis(0)) > 0.1 ? controller.getRawAxis(0) : 0,
-                Math.abs(controller.getRawAxis(1)) > 0.1 ? controller.getRawAxis(1) : 0,
-                Math.abs(controller.getTwist()) > 0.2 ? controller.getTwist() : 0
+                Math.abs(controller.getRawAxis(0)) > 0.2 ? controller.getRawAxis(0) * multiplier : 0,
+                Math.abs(controller.getRawAxis(1)) > 0.2 ? controller.getRawAxis(1) * multiplier : 0,
+                Math.abs(controller.getTwist()) > 0.3 ? controller.getTwist() : 0
         );
       }
     }, swerve));

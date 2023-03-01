@@ -9,6 +9,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private static final double LOW_SHOOT_SPEED = 0.1;
     private static final double MEDIUM_SHOOT_SPEED = 0.3;
     private static final double HIGH_SHOOT_SPEED = 0.4;
+    private static final double HIGHER_SHOOT_SPEED = 0.5;
 
     private final CANSparkMax frontShooter = new CANSparkMax(9, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax rearShooter = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -38,8 +39,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void crazyShoot() {
-        frontShooter.set(1);
-        rearShooter.set(-1);
+        frontShooter.set(HIGHER_SHOOT_SPEED);
+        rearShooter.set(-HIGHER_SHOOT_SPEED);
     }
 
 }
