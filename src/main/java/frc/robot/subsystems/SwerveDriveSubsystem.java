@@ -22,10 +22,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     private SwerveModule rearLeftModule;
 
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-            new Translation2d(0.343, 0.343), //13.5 to meter 
-            new Translation2d(0.343, -0.343),
-            new Translation2d(-0.343, 0.343),
-            new Translation2d(-0.343, -0.343)
+            new Translation2d(0.262, 0.325), //13.5 to meter 
+            new Translation2d(0.262, -0.325),
+            new Translation2d(-0.262, 0.325),
+            new Translation2d(-0.262, -0.325)
     );
 
     private AHRS gyro;
@@ -66,6 +66,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void reset() {
         gyro.reset();
+    }
+
+    public AHRS getGyro() {
+        return gyro;
     }
 
     enum DistanceUnit {

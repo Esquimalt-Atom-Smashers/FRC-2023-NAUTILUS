@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,15 +32,12 @@ public class RobotContainer {
 
   // Auto
   // A chooser for autonomous commands
-  SendableChooser<Command> chooser = new SendableChooser<>();
-  MiddlePosition middlePosition = new MiddlePosition();
-  LeftAndRightPosition leftandrightposition = new LeftAndRightPosition();
+  SendableChooser<ShootAndDrive> chooser = new SendableChooser<>();
 
 
   public RobotContainer() {
-
-    chooser.setDefaultOption("Middle Position", ShootAndDrive.middleCommand(this));
-    chooser.addOption("Left And Right Position", ShootAndDrive.leftRightCommand(this));
+    chooser.setDefaultOption("Middle Position", new MiddlePosition(this));
+    chooser.addOption("Left And Right Position", new LeftAndRightPosition(this));
     SmartDashboard.putData(chooser);
     // End Auto
 
@@ -55,11 +53,23 @@ public class RobotContainer {
       if (controller.getRawButton(9)) {
         swerve.reset();
       } else {
+        boolean autoSnap = controller.getRawButton(7);
+        double angular;
+        if (autoSnap) {
+          double gyro = swerve.getGyro().getYaw();
+          SmartDashboard.putString("gyro", String.valueOf(gyro));
+          angular = -(gyro / 180)*2;
+          if (Math.abs(angular) > 1) {
+            angular = angular / Math.abs(angular) * 1;
+          }
+        } else {
+          angular = Math.abs(controller.getTwist()) > 0.3 ? controller.getTwist() : 0;
+        }
         double multiplier = controller.getRawButton(8) ? 1.5 : 1;
         swerve.drive(
                 Math.abs(controller.getRawAxis(0)) > 0.2 ? controller.getRawAxis(0) * multiplier : 0,
                 Math.abs(controller.getRawAxis(1)) > 0.2 ? controller.getRawAxis(1) * multiplier : 0,
-                Math.abs(controller.getTwist()) > 0.3 ? controller.getTwist() : 0
+                angular
         );
       }
     }, swerve));
@@ -88,7 +98,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return chooser.getSelected();
+    return chooser.getSelected().getAutonomousCommand();
   }
 
   public SwerveDriveSubsystem getSwerve() {

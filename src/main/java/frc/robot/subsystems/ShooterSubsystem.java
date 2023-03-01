@@ -17,6 +17,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
         frontShooter.setIdleMode(CANSparkMax.IdleMode.kBrake);
         rearShooter.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        frontShooter.enableVoltageCompensation(12.2);
+        rearShooter.enableVoltageCompensation(12.2);
+        
     }
 
     public void shootStop() {

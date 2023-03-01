@@ -9,24 +9,26 @@ public class ShootAndDrive {
 
     private double driveTime;
     private double driveSpeed;
+    private final RobotContainer robot;
 
-    public ShootAndDrive(double driveTime, double driveSpeed) {
+    public ShootAndDrive(RobotContainer robot, double driveTime, double driveSpeed) {
         this.driveTime = driveTime;
         this.driveSpeed = driveSpeed;
+        this.robot = robot;
     }
 
-    public static Command middleCommand(RobotContainer container) {
-        return new ShootAndDrive(3.8, 0.33).getAutonomousCommand(container);
+    public static Command middleCommand(RobotContainer robot) {
+        return new ShootAndDrive(robot, 3.8, 0.33).getAutonomousCommand();
     }
-    public static Command leftRightCommand(RobotContainer container) {
-        return new ShootAndDrive(2.9, 0.8).getAutonomousCommand(container);
+    public static Command leftRightCommand(RobotContainer robot) {
+        return new ShootAndDrive(robot, 2.9, 0.8).getAutonomousCommand();
     }
 
-    public Command getAutonomousCommand(RobotContainer container) {
-        var shooter = container.getShooter();
-        var index = container.getIndex();
-        var swerve = container.getSwerve();
-        var intake = container.getIntake();
+    public Command getAutonomousCommand() {
+        var shooter = robot.getShooter();
+        var index = robot.getIndex();
+        var swerve = robot.getSwerve();
+        var intake = robot.getIntake();
 
         swerve.reset();
         return new RunCommand(shooter::highShoot, shooter).withTimeout(1)
