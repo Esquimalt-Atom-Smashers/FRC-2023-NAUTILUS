@@ -11,13 +11,15 @@ public class DriveByTimeCommand extends CommandBase {
 
     private double time;
     private double speed;
+    private double angular;
 
     private final Timer timer = new Timer();
 
-    public DriveByTimeCommand(SwerveDriveSubsystem swerve, double time, double speed){
+    public DriveByTimeCommand(SwerveDriveSubsystem swerve, double time, double speed, double angular){
         this.swerve = swerve;
         this.time = time;
         this.speed = speed;
+        this.angular = angular;
         addRequirements(swerve);
     }
 
@@ -25,7 +27,7 @@ public class DriveByTimeCommand extends CommandBase {
     public void initialize(){
         timer.reset();
         timer.start();
-        swerve.drive(speed,0, 0);
+        swerve.drive(0,-speed, angular);
         while(timer.get() < time) {}
         swerve.drive(0, 0, 0);
     }
