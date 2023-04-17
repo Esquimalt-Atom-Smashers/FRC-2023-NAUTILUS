@@ -28,7 +28,11 @@ public class DriveByTimeCommand extends CommandBase {
         timer.reset();
         timer.start();
         swerve.drive(0,-speed, angular);
-        while(timer.get() < time) {}
+        while(timer.get() < time) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception ignored) { }
+        }
         swerve.drive(0, 0, 0);
     }
 

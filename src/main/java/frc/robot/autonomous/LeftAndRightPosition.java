@@ -8,7 +8,7 @@ import frc.robot.commands.DriveByTimeCommand;
 public class LeftAndRightPosition extends ShootAndDrive {
 
     public LeftAndRightPosition(RobotContainer robot) {
-        super(robot, 2.9, 0.8);
+        super(robot, 2.5, 0.8);
     }
 
 }

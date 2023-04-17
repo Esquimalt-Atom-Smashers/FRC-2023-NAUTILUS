@@ -15,8 +15,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax rearShooter = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     public ShooterSubsystem() {
-        frontShooter.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        rearShooter.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        frontShooter.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        rearShooter.setIdleMode(CANSparkMax.IdleMode.kCoast);
         frontShooter.enableVoltageCompensation(12.2);
         rearShooter.enableVoltageCompensation(12.2);
         

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexSubsystem extends SubsystemBase {
 
-    private final double INDEX_SPEED = 0.25;
+    private final double INDEX_SPEED = 0.4;
 
     private final VictorSPX frontIndex = new VictorSPX(2);
     private final VictorSPX rearIndex = new VictorSPX(1);

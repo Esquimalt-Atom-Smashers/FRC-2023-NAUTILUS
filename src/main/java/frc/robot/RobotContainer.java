@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.autonomous.LeftAndRightPosition;
 import frc.robot.autonomous.MiddlePosition;
 import frc.robot.autonomous.ShootAndDrive;
+import frc.robot.commands.GyroBalanceCommand;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -27,6 +29,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final IndexSubsystem index = new IndexSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final LEDSubsystem leds = new LEDSubsystem();
 
   private final Joystick controller = new Joystick(0);
 
@@ -41,6 +44,8 @@ public class RobotContainer {
     SmartDashboard.putData(chooser);
     // End Auto
 
+    leds.normal();
+
     configureButtonBindings();
 
     index.setDefaultCommand(new RunCommand(() -> {
@@ -53,29 +58,50 @@ public class RobotContainer {
       if (controller.getRawButton(9)) {
         swerve.reset();
       } else {
-        boolean autoSnap = controller.getRawButton(7);
-        double angular;
+        double pov = controller.getPOV();
+
+        boolean autoSnap = controller.getRawButton(7) || pov != -1;
+        double snapDegree = pov;
+        if (snapDegree == -1) snapDegree = 0;
+        boolean autoBalance = controller.getRawButton(10);
+        boolean normalDrive = !autoSnap && !autoBalance;
+        double angular = 0;
+        double forward = 0;
+        double sideways = 0;
+
+        double multiplier = controller.getRawButton(8) ? 3 : 1;
+
+        if (autoSnap || normalDrive) {
+          forward = Math.abs(controller.getRawAxis(0)) > 0.2 ? controller.getRawAxis(0) * multiplier : 0;
+          sideways = Math.abs(controller.getRawAxis(1)) > 0.2 ? controller.getRawAxis(1) * multiplier : 0;
+        }
+
         if (autoSnap) {
-          double gyro = swerve.getGyro().getYaw();
-          SmartDashboard.putString("gyro", String.valueOf(gyro));
-          angular = -(gyro / 180)*2;
-          if (Math.abs(angular) > 1) {
-            angular = angular / Math.abs(angular) * 1;
+          double gyro = (swerve.getGyro().getYaw() + snapDegree);
+          // if (gyro > 180) gyro -= 360;
+          // else if (gyro < 180) gyro += 360;
+          SmartDashboard.putString("gyro-adjusted", String.valueOf(gyro));
+          angular = -(gyro / 180)*3;
+          if (Math.abs(angular) > 1.5) {
+            angular = angular / Math.abs(angular) * 1.5;
           }
+        } else if (autoBalance) {
+          forward = GyroBalanceCommand.calculateDriveAmount(swerve.getGyro().getRoll());
+          sideways = 0;
+          angular = 0;
         } else {
           angular = Math.abs(controller.getTwist()) > 0.3 ? controller.getTwist() : 0;
         }
-        double multiplier = controller.getRawButton(8) ? 1.5 : 1;
         swerve.drive(
-                Math.abs(controller.getRawAxis(0)) > 0.2 ? controller.getRawAxis(0) * multiplier : 0,
-                Math.abs(controller.getRawAxis(1)) > 0.2 ? controller.getRawAxis(1) * multiplier : 0,
+                forward,
+                sideways,
                 angular
         );
       }
     }, swerve));
 
     intake.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(2)) {
+      if (controller.getRawButton(2) || controller.getRawButton(1)) {
         intake.forward();
       } else if (controller.getRawButton(11)) {
         intake.reverse();
@@ -85,11 +111,20 @@ public class RobotContainer {
     }, intake));
 
     shooter.setDefaultCommand(new RunCommand(() -> {
-      if (controller.getRawButton(4)) shooter.lowShoot();
-      else if (controller.getRawButton(3)) shooter.mediumShoot();
-      else if (controller.getRawButton(5)) shooter.highShoot();
-      else if (controller.getRawButton(6)) shooter.crazyShoot();
-      else shooter.shootStop();
+      if (controller.getRawButton(4)) {
+        shooter.lowShoot();
+        leds.charging();
+        leds.lowShoot();
+      } else if (controller.getRawButton(3) || controller.getRawButton(6)) {
+        shooter.mediumShoot();
+        leds.mediumShoot();
+      } else if (controller.getRawButton(5)) {
+        shooter.highShoot();
+        leds.highShoot();
+      } else {
+        shooter.shootStop();
+        leds.normal();
+      }
     }, shooter));
   }
 
@@ -115,6 +150,10 @@ public class RobotContainer {
 
   public ShooterSubsystem getShooter() {
       return shooter;
+  }
+
+  public LEDSubsystem getLeds() {
+      return leds;
   }
 
 }
