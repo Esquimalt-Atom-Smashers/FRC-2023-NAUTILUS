@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LEDSubsystem extends SubsystemBase {
 
     public static double NORMAL = -0.97;
-    public static double HIGH_SHOOT = -0.59;
+    public static double HIGH_SHOOT = -0.91;
     public static double MEDIUM_SHOOT = -0.91;
     public static double LOW_SHOOT = -0.95;
     public static double CHARGING = -0.95;

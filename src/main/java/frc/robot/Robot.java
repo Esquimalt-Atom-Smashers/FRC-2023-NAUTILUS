@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -24,6 +25,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
 
+
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -82,6 +85,7 @@ public class Robot extends TimedRobot {
     // if (m_autonomousCommand != null) {
     //   m_autonomousCommand.cancel();
     // }
+    robotContainer.setController();
   }
 
   /** This function is called periodically during operator control. */
